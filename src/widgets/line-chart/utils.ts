@@ -29,8 +29,8 @@ export function seriesToChartData(
 }
 
 const PALETTE = [
-  '#7F77DD', '#1D9E75', '#D85A30',
-  '#378ADD', '#BA7517', '#D4537E',
+  'var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)',
+  'var(--chart-4)', 'var(--chart-5)', 'var(--chart-6)',
 ]
 
 export function getSeriesColor(index: number): string {

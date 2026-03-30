@@ -28,7 +28,7 @@ export function LineChartWidget({ config }: LineChartWidgetProps) {
     [seriesList]
   )
 
-  if (isPending) return <Widget><Widget.Loading /></Widget>
+  if (isPending) return <Widget><Widget.Loading variant="chart" /></Widget>
   if (isError)   return <Widget><Widget.Error /></Widget>
   if (seriesList.length === 0) return (
     <Widget><Widget.Empty message="No matching metrics found" /></Widget>

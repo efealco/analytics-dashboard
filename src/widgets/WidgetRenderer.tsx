@@ -26,7 +26,6 @@ export function WidgetRenderer({ definition }: WidgetRendererProps) {
       )
 
     default: {
-      const _exhaustive: never = definition
       return null
     }
   }

@@ -7,14 +7,14 @@ import { useTraffic } from '@/entities/analytics'
 import { useDashboardStore } from '@/features/date-range-filter/useDashboardStore'
 import { formatAxisDate } from '@/widgets/line-chart/utils'
 
-const DIRECT_COLOR   = '#534AB7'
-const INDIRECT_COLOR = '#9FE1CB'
+const DIRECT_COLOR   = 'var(--chart-1)'
+const INDIRECT_COLOR = 'var(--chart-2)'
 
 export function TrafficBarWidget() {
   const dateRange = useDashboardStore(s => s.dateRange)
   const { data, isPending, isError } = useTraffic(dateRange)
 
-  if (isPending) return <Widget><Widget.Loading /></Widget>
+  if (isPending) return <Widget><Widget.Loading variant="chart" /></Widget>
   if (isError)   return <Widget><Widget.Error /></Widget>
   if (data.data.length === 0) return (
     <Widget><Widget.Empty message="No traffic data for this period" /></Widget>

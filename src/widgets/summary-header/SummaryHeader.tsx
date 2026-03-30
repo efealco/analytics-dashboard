@@ -1,93 +1,50 @@
 import { useSummaryStats } from '@/entities/analytics'
+import { SummaryHeaderSkeleton } from '@/shared/ui/Skeleton'
 
-function formatDelta(v: number) {
-  const sign  = v >= 0 ? '+' : ''
-  const color = v >= 0
-    ? 'var(--color-text-success)'
-    : 'var(--color-text-danger)'
-  return { label: `${sign}${v.toFixed(1)}%`, color }
-}
-
-function fmtSeconds(s: number) {
-  const m = Math.floor(s / 60)
-  const r = s % 60
-  return `${m}m ${r}s`
+function delta(v: number, lowerIsBetter = false) {
+  const good = lowerIsBetter ? v <= 0 : v >= 0
+  return {
+    cls:   good ? 'badge badge-up' : 'badge badge-down',
+    label: `${v >= 0 ? '+' : ''}${v.toFixed(1)}%`,
+  }
 }
 
 interface StatCardProps {
-  label:  string
-  value:  string
-  delta?: number
+  label: string; value: string; change?: number; lowerIsBetter?: boolean
 }
 
-function StatCard({ label, value, delta }: StatCardProps) {
-  const d = delta !== undefined ? formatDelta(delta) : null
+function StatCard({ label, value, change, lowerIsBetter }: StatCardProps) {
+  const d = change !== undefined ? delta(change, lowerIsBetter) : null
   return (
     <div style={{
-      background: 'var(--color-background-secondary)',
-      borderRadius: 'var(--border-radius-md)',
-      padding: '1rem',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '4px',
+      background: 'var(--bg-card)', border: '1px solid var(--border)',
+      borderRadius: 'var(--radius-lg)', padding: '1rem 1.125rem',
     }}>
-      <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+      <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 500,
+        marginBottom: 6, textTransform: 'uppercase', letterSpacing: '.04em' }}>
         {label}
-      </span>
-      <span style={{ fontSize: '22px', fontWeight: 500 }}>
+      </div>
+      <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-.02em', marginBottom: 6 }}>
         {value}
-      </span>
-      {d && (
-        <span style={{ fontSize: '12px', color: d.color }}>
-          {d.label} vs last period
-        </span>
-      )}
+      </div>
+      {d && <span className={d.cls}>{d.label} vs last period</span>}
     </div>
   )
 }
 
 export function SummaryHeader() {
   const { data, isPending, isError } = useSummaryStats()
-
-  if (isPending) return <div style={{ height: 96 }} />
+  if (isPending) return <SummaryHeaderSkeleton />
   if (isError)   return null
-
   const s = data
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-      gap: '12px',
-      marginBottom: '1.5rem',
-    }}>
-      <StatCard
-        label="Total visitors"
-        value={s.totalVisitors.toLocaleString()}
-        delta={s.vsLastPeriod.visitors}
-      />
-      <StatCard
-        label="Total revenue"
-        value={`$${s.totalRevenue.toLocaleString()}`}
-        delta={s.vsLastPeriod.revenue}
-      />
-      <StatCard
-        label="Total sales"
-        value={s.totalSales.toLocaleString()}
-        delta={s.vsLastPeriod.sales}
-      />
-      <StatCard
-        label="Avg session"
-        value={fmtSeconds(s.avgSessionSec)}
-      />
-      <StatCard
-        label="Bounce rate"
-        value={`${s.bounceRate.toFixed(1)}%`}
-        delta={s.vsLastPeriod.bounceRate}
-      />
-      <StatCard
-        label="Conversion"
-        value={`${s.conversionRate.toFixed(1)}%`}
-      />
+    <div className="grid-4" style={{ marginBottom: '1.75rem' }}>
+      <StatCard label="Total visitors" value={s.totalVisitors.toLocaleString()} change={s.vsLastPeriod.visitors} />
+      <StatCard label="Total revenue"  value={`$${s.totalRevenue.toLocaleString()}`} change={s.vsLastPeriod.revenue} />
+      <StatCard label="Total sales"    value={s.totalSales.toLocaleString()} change={s.vsLastPeriod.sales} />
+      <StatCard label="Avg session"    value={`${Math.floor(s.avgSessionSec/60)}m ${s.avgSessionSec%60}s`} />
+      <StatCard label="Bounce rate"    value={`${s.bounceRate.toFixed(1)}%`} change={s.vsLastPeriod.bounceRate} lowerIsBetter />
+      <StatCard label="Conversion"     value={`${s.conversionRate.toFixed(1)}%`} />
     </div>
   )
 }

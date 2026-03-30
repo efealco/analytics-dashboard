@@ -30,13 +30,6 @@ const th: React.CSSProperties = {
   whiteSpace: 'nowrap',
 }
 
-const td: React.CSSProperties = {
-  padding: '10px 12px',
-  fontSize: '13px',
-  borderBottom: '0.5px solid var(--color-border-tertiary)',
-  whiteSpace: 'nowrap',
-}
-
 export function ChannelsTableWidget() {
   const { data, isPending, isError } = useChannels()
 
@@ -53,7 +46,7 @@ export function ChannelsTableWidget() {
       </Widget.Header>
       <Widget.Body>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <table className="data-table">
             <thead>
               <tr>
                 {COLUMNS.map(col => (
@@ -64,19 +57,13 @@ export function ChannelsTableWidget() {
               </tr>
             </thead>
             <tbody>
-              {data.data.map((row, i) => (
+              {data.data.map((row) => (
                 <tr
                   key={row.source}
-                  style={{
-                    background: i % 2 === 0
-                      ? 'transparent'
-                      : 'var(--color-background-secondary)',
-                  }}
                 >
                   {COLUMNS.map(col => (
                     <td
                       key={col.key}
-                      style={{ ...td, textAlign: col.align }}
                     >
                       {col.format(row[col.key])}
                     </td>
