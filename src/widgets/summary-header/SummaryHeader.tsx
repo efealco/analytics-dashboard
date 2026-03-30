@@ -16,12 +16,8 @@ interface StatCardProps {
 function StatCard({ label, value, change, lowerIsBetter }: StatCardProps) {
   const d = change !== undefined ? delta(change, lowerIsBetter) : null
   return (
-    <div style={{
-      background: 'var(--bg-card)', border: '1px solid var(--border)',
-      borderRadius: 'var(--radius-lg)', padding: '1rem 1.125rem',
-    }}>
-      <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 500,
-        marginBottom: 6, textTransform: 'uppercase', letterSpacing: '.04em' }}>
+    <div className='stat-card'>
+      <div className='stat-card-label'>
         {label}
       </div>
       <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-.02em', marginBottom: 6 }}>

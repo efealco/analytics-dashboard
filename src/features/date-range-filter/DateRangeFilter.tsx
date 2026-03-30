@@ -13,21 +13,28 @@ export function DateRangeFilter() {
   const setPreset = useDashboardStore(s => s.setPreset)
 
   return (
-    <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+    <div style={{
+      display: 'flex', gap: 2,
+      background: '#ECEEF2',
+      padding: '3px',
+      borderRadius: '10px',
+    }}>
       {PRESETS.map(({ label, value }) => (
         <button
           key={value}
           onClick={() => setPreset(value)}
           style={{
-            padding: '5px 12px',
-            fontSize: '12px',
-            borderRadius: 'var(--border-radius-md, 8px)',
-            border: '0.5px solid',
+            background: preset === value ? '#fff' : 'transparent',
+            color: preset === value ? 'var(--text-primary)' : 'var(--text-muted)',
+            border: preset === value ? '1px solid var(--border)' : '1px solid transparent',
+            boxShadow: preset === value ? '0 1px 3px rgba(0,0,0,.08)' : 'none',
+            borderRadius: 7,
+            padding: '4px 12px',
+            fontSize: 12,
+            fontWeight: preset === value ? 500 : 400,
             cursor: 'pointer',
-            transition: 'all .15s',
-            background: preset === value ? '#534AB7' : 'transparent',
-            borderColor: preset === value ? '#534AB7' : 'var(--color-border-secondary)',
-            color: preset === value ? '#fff' : 'var(--color-text-secondary)',
+            transition: 'all .12s',
+            fontFamily: 'var(--font-sans)',
           }}
         >
           {label}

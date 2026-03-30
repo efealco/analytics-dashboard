@@ -3,9 +3,7 @@ import { useMetrics } from '@/entities/metric'
 import { useDashboardStore } from '@/features/date-range-filter/useDashboardStore'
 import type { KpiConfig } from '@/entities/dashboard'
 
-interface KpiWidgetProps {
-  config: KpiConfig
-}
+interface KpiWidgetProps { config: KpiConfig }
 
 export function KpiWidget({ config }: KpiWidgetProps) {
   const dateRange = useDashboardStore(s => s.dateRange)
@@ -15,31 +13,28 @@ export function KpiWidget({ config }: KpiWidgetProps) {
   if (isError)   return <Widget><Widget.Error /></Widget>
 
   const series = data.data.find(s => s.id === config.metricId)
-
   if (!series) return (
-    <Widget>
-      <Widget.Empty message={`Metric "${config.metricId}" not found`} />
-    </Widget>
+    <Widget><Widget.Empty message="Metric not found" /></Widget>
   )
 
-  const latest     = series.points.at(-1)
-  const trendSign  = series.trend === 'up' ? '+' : ''
-  const trendColor =
-    series.trend === 'up'   ? 'var(--color-text-success)'  :
-    series.trend === 'down' ? 'var(--color-text-danger)'   :
-    'var(--color-text-secondary)'
+  const latest   = series.points.at(-1)
+  const isUp     = series.trend === 'up'
+  const trendSign = isUp ? '+' : ''
+  const trendCls  = isUp ? 'kpi-trend kpi-trend-up' : 'kpi-trend kpi-trend-down'
 
   return (
     <Widget>
-      <Widget.Header><span>{config.label}</span></Widget.Header>
+      <Widget.Header>
+        <span>{config.label}</span>
+      </Widget.Header>
       <Widget.Body>
         <p className="kpi-value">
           {config.unit}{latest?.value.toLocaleString() ?? '—'}
         </p>
         {config.showTrend && (
-          <p className="kpi-trend" style={{ color: trendColor }}>
+          <span className={trendCls}>
             {trendSign}{series.changePercent.toFixed(1)}% vs last period
-          </p>
+          </span>
         )}
       </Widget.Body>
     </Widget>
