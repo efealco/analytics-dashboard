@@ -1,5 +1,11 @@
 # Analytics Dashboard
 
+<p align="center">
+  <img src="./docs/img/img01.png" alt="Dashboard Screenshot" width="900"/>
+  <br/>
+  <em>Main dashboard view with dynamic widgets and filters</em>
+</p>
+
 A modular, scalable analytics dashboard built to demonstrate
 senior frontend engineering patterns — not just working code,
 but decisions that hold up at scale.
