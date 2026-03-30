@@ -66,8 +66,8 @@ html, body, #root {
 }
 .widget-header span {
   font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
+  font-weight: bold;
+  color: var(--text-primary);
   letter-spacing: .01em;
   text-transform: uppercase;
 }

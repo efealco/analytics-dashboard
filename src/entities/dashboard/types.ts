@@ -13,6 +13,13 @@ export interface LineChartConfig {
   curved: boolean
 }
 
+export interface AreaChartConfig {
+  metricIds: string[]
+  title: string
+  showLegend: boolean
+  curved: boolean
+}
+
 export interface BarChartConfig {
   metricIds: string[]
   title: string
@@ -29,6 +36,7 @@ export interface DataTableConfig {
 export type WidgetDefinition =
   | { type: 'kpi';   config: KpiConfig }
   | { type: 'line';  config: LineChartConfig }
+  | { type: 'area';  config: AreaChartConfig }
   | { type: 'bar';   config: BarChartConfig }
   | { type: 'table'; config: DataTableConfig }
 

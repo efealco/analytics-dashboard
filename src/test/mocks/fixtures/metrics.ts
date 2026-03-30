@@ -32,4 +32,28 @@ export const metricFixtures: MetricSeries[] = [
       label: 'Active Users',
     })),
   },
+  {
+    id: '223e4567-e89b-12d3-a456-426614174002',
+    name: 'Current',
+    unit: '',
+    trend: 'up',
+    changePercent: 8.3,
+    points: months.map((date, i) => ({
+      date,
+      value: [42, 124, 215, 317, 460, 524][i]!,
+      label: 'Current',
+    })),
+  },
+  {
+    id: '223e4567-e89b-12d3-a456-426614174003',
+    name: 'Previous',
+    unit: '',
+    trend: 'up',
+    changePercent: 8.3,
+    points: months.map((date, i) => ({
+      date,
+      value: [184, 42, 215, 378, 42, 580][i]!,
+      label: 'Previous',
+    })),
+  },
 ]

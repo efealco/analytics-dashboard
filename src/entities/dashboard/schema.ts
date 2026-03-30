@@ -14,6 +14,13 @@ const lineChartConfigSchema = z.object({
   curved: z.boolean(),
 })
 
+const areaChartConfigSchema = z.object({
+  metricIds: z.array(z.string()),
+  title: z.string().min(1),
+  showLegend: z.boolean(),
+  curved: z.boolean(),
+})
+
 const barChartConfigSchema = z.object({
   metricIds: z.array(z.string()),
   title: z.string().min(1),
@@ -29,6 +36,7 @@ const dataTableConfigSchema = z.object({
 export const widgetDefinitionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('kpi'),   config: kpiConfigSchema }),
   z.object({ type: z.literal('line'),  config: lineChartConfigSchema }),
+  z.object({ type: z.literal('line'),  config: areaChartConfigSchema }),
   z.object({ type: z.literal('bar'),   config: barChartConfigSchema }),
   z.object({ type: z.literal('table'), config: dataTableConfigSchema }),
 ])
